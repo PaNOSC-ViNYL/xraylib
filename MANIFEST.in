@@ -17,3 +17,6 @@ graft tests
 graft windows
 include Makefile.am
 include configure.ac
+include libxrl.pc.in
+include libxrlf03.pc.in
+include xraylib.spec.in
