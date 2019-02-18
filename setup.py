@@ -33,6 +33,7 @@ extensions = [Extension('np_xraylib', ['xraylib/xraylib_np.pyx',
                                        'src/kissel_pe.c',
                                        'src/xrayfiles_inline.c',
                                        'src/xraylib-aux.c',
+                                       'src/xraylib-error.c',
                                        'src/xraylib-parser.c',
                                        'src/cs_cp.c',
                                        'src/refractive_indices.c',
@@ -55,4 +56,4 @@ setup(name='xraylib',
       py_modules=["xraylib"],
       packages=find_packages(),
       ext_modules=cythonize(extensions),
-      cmd_class={'build': XRayLibBuild})
+      cmdclass={'build': XRayLibBuild})

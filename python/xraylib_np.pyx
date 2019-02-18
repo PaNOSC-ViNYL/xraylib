@@ -1,3 +1,4 @@
+# cython: language_level=3
 #Copyright (c) 2014-2018 Tom Schoonjans
 #All rights reserved.
 
