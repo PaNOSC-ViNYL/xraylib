@@ -1,15 +1,22 @@
 import sys
-from setuptools.command.install import install
+from subprocess import run as sub_run
+from setuptools.command.build import build
 from setuptools import setup, Extension
 
-class Build_ext_first(install):
+# class Build_ext_first(install):
+#     def run(self):
+#         self.run_command("build_ext")
+#         return install.run(self)
+
+class XRayLibBuild(build):
     def run(self):
-        self.run_command("build_ext")
-        return install.run(self)
+        sub_run(['autoreconf', '-i'])
+        sub_run(['./configure'])
+        sub_run(['make'])
+        super().run()
 
 xraylib_kwargs = {'include_dirs': ['src','include','.'],
-                #  'swig_opts': ['-includeall', '-I./include'],
-                  'libraries': ['libxrl-7'],
+                  'swig_opts': ['-includeall', '-I./include'],
                   'sources': ['src/xrayvars.c',
                               'src/cross_sections.c',
                               'src/scattering.c',
