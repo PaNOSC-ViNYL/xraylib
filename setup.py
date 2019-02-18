@@ -1,6 +1,6 @@
 import sys
 from subprocess import run as sub_run
-from setuptools.command.build import build
+from distutils.command.build import build
 from setuptools import setup, Extension
 
 # class Build_ext_first(install):
