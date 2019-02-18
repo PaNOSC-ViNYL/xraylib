@@ -1,19 +1,36 @@
 import os
+from shutil import which
 from subprocess import run as sub_run
 from distutils.command.build import build
 from setuptools import setup, Extension, find_packages
-from Cython.Build import cythonize
+try:
+    import numpy
+except ImportError:
+    raise Exception("Numpy is required to build xraylib")
+try:
+    from Cython.Build import cythonize
+except ImportError:
+    raise Exception("Cython is required to build xraylib")
 
 here = os.path.abspath(os.path.dirname(__name__))
 
+def check_dependencies():
+    '''
+    Check dependencies for Windows (msbuild) and Unix (make).
+    :raises Exception: if one is missing, an exception is raised.
+    '''
+    if not which("make"):
+        raise Exception("You need to install make in order to execute the makefile to build SRW")
+
 class XRayLibBuild(build):
     def run(self):
+        check_dependencies()
         sub_run(['autoreconf', '-i'])
         sub_run(['sh', '{}/configure'.format(here)])
         sub_run(['make', '-C', here])
         super().run()
 
-extensions = [Extension('np_xraylib', ['xraylib/xraylib_np.pyx',
+extensions = [Extension('np_xraylib', ['python/xraylib_np.pyx',
                                        'src/xrayvars.c',
                                        'src/cross_sections.c',
                                        'src/scattering.c',
